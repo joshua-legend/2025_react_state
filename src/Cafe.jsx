@@ -38,5 +38,4 @@ const Cafe = () => {
     </div>
   );
 };
-
 export default Cafe;
