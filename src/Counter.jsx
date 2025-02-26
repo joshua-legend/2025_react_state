@@ -1,15 +1,9 @@
 const Counter = (props) => {
-  const { total, setTotal } = props;
-  const plus = () => {
-    setTotal((prev) => prev + 1);
-  };
-  const minus = () => {
-    setTotal((prev) => (prev == 0 ? 0 : prev - 1));
-  };
+  const { num, plus, minus } = props;
   return (
     <div>
       <button onClick={minus}>-</button>
-      <span>{total}</span>
+      <span>{num}</span>
       <button onClick={plus}>+</button>
     </div>
   );

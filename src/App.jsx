@@ -1,15 +1,37 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import Counter from "./Counter";
 
 function App() {
-  const [total, setTotal] = useState(Array(100).fill(0));
-  const plus = () => setTotal((prev) => {});
+  const [numArray, setNumArray] = useState(Array(30).fill(0));
+  const numPlus = (i) => {
+    setNumArray((prev) => {
+      const newArr = [...prev];
+      newArr[i] = newArr[i] + 1;
+      return newArr;
+    });
+  };
+  const numMinus = (i) => {
+    setNumArray((prev) => {
+      const newArr = [...prev];
+      newArr[i] = newArr[i] - 1;
+      return newArr;
+    });
+  };
+
   return (
     <>
-      <Counter total={total} setTotal={setTotal} />
-      <Counter total={total1} setTotal={setTotal1} />
-      <Counter total={total2} setTotal={setTotal2} />
-      <span>{total + total1 + total2}</span>
+      {numArray.map((v, i) => (
+        <Counter
+          num={v}
+          plus={() => {
+            numPlus(i);
+          }}
+          minus={() => {
+            numMinus(i);
+          }}
+        />
+      ))}
+      <span>total:{numArray.reduce((a, c) => a + c)}</span>
     </>
   );
 }
