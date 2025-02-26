@@ -1,38 +1,50 @@
-import { use, useState } from "react";
+import { useState } from "react";
+import Price from "./Price";
 import Counter from "./Counter";
 
 function App() {
-  const [numArray, setNumArray] = useState(Array(30).fill(0));
-  const numPlus = (i) => {
-    setNumArray((prev) => {
+  const [product, setProduct] = useState([
+    { price: 10000, cnt: 1, maxCount: 12 },
+    { price: 20000, cnt: 1, maxCount: 1 },
+    { price: 30000, cnt: 1, maxCount: 1000 },
+  ]);
+
+  const plus = (i) => {
+    setProduct((prev) => {
       const newArr = [...prev];
-      newArr[i] = newArr[i] + 1;
+      const { cnt, maxCount } = newArr[i];
+      newArr[i].cnt = cnt == maxCount ? cnt : cnt + 1;
       return newArr;
     });
   };
-  const numMinus = (i) => {
-    setNumArray((prev) => {
+
+  const minus = (i) => {
+    setProduct((prev) => {
       const newArr = [...prev];
-      newArr[i] = newArr[i] - 1;
+      newArr[i].cnt = newArr[i].cnt == 1 ? 1 : newArr[i].cnt - 1;
       return newArr;
     });
   };
 
   return (
     <>
-      {numArray.map((v, i) => (
-        <Counter
-          num={v}
-          plus={() => {
-            numPlus(i);
-          }}
-          minus={() => {
-            numMinus(i);
-          }}
-        />
+      {product.map((v, i) => (
+        <>
+          <Price price={v.price} />
+          <Counter
+            plus={() => {
+              plus(i);
+            }}
+            minus={() => {
+              minus(i);
+            }}
+            cnt={v.cnt}
+          />
+        </>
       ))}
-      <span>total:{numArray.reduce((a, c) => a + c)}</span>
+      <span>총액: {product.map((v) => v.price * v.cnt).reduce((a, c) => a + c)}</span>
     </>
   );
 }
+
 export default App;
